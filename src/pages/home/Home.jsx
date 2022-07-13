@@ -1,9 +1,102 @@
-import React from 'react'
+import RecipeCard from "./RecipeCard";
+import { useState } from "react";
+import axios from "axios";
+import "../../App.module.css";
+import Div from "./style";
+// styled componentlerde tagları import et.
 
-function Home() {
+const Home = () => {
+  const style = { width: "400px", margin: "1rem auto" };
+  //? gifin variable styleı ile style objesini verdik.
+
+  const [data, setData] = useState([]);
+  const [meal, setMeal] = useState("");
+  const [query, setQuery] = useState("");
+
+  const appId = "9df041a6";
+  const apiKey = "77c7ceb1a4c40d69998fc15e99950338";
+
+  const url = `https://api.edamam.com/search?q=${query}&app_id=${appId}&app_key=${apiKey}&mealType=${meal}`;
+
+  const getData = async () => {
+    const { data } = await axios.get(url);
+    setData(data.hits);
+    console.log(data.hits);
+   
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+  };
+
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <Div>
+        <form onSubmit={handleSubmit}>
+        
+          <input
+          
+          className="form-control"
+          placeholder="Select One"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          type="text"
+          name="query"
+          id="query"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        
+          
+          
+          <select
+             style={{ display: "inline" }}
+            className="form-select"
+            id="inputGroupSelect01"
+            name="meal"
+            onChange={(e) => setMeal(e.target.value)}
+          >
+            <option defaultValue={"Choose One"}>Choose One</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Snack">Snack</option>
+            <option value="Teatime">Teatime</option>
+          </select>
+          
+          <button
+            // style={{ display: "inline" }}
+            className="btn btn-dark px-4 my-3"
+          >
+            Search
+          </button>
+        </form>
+      </Div>
 
-export default Home
+      <div className="rot">
+        {
+          data.map((item, index) => {
+          
+            const { label, source, image } = item.recipe;
+         
+            return (
+            
+              <RecipeCard
+                key={index}
+                image={image}
+                label={label}
+                source={source}
+                itemrecipe={item.recipe}
+                data1={data}
+
+              />
+           
+            );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default Home;
