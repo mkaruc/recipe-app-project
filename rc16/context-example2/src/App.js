@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import UserContextProvider from './context/UserContextProvider';
 import ShowUsers from './pages/ShowUsers';
 
 function App() {
@@ -8,7 +9,10 @@ function App() {
 
   return (
     <>
+    <UserContextProvider>
       <ShowUsers />
+    </UserContextProvider>
+      
     </>
   );
 }

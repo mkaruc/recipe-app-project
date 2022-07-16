@@ -1,8 +1,13 @@
-import { reateContext } from 'react';
-import { useState } from 'react';
+import { reateContext, useContext } from 'react';
+import { useState,useEffect } from 'react';
+import { createContext } from "react";
 
 //? 1- Defining
 export const UserContext = createContext();
+
+export const useUserContext =()=>{
+  return useContext(UserContext);
+};
 
 //? 2- Provider Component
 const UserContextProvider = ({ children }) => {
